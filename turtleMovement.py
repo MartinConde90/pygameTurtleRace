@@ -27,7 +27,7 @@ class Game():
         while not gameOver:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygmae.quit()
+                    pygame.quit()
                     sys.exit()
                 elif event.type == KEYDOWN:
                     if event.key == K_UP:
