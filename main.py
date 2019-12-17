@@ -3,14 +3,15 @@ import random
 
 
 class Runner():
-    __customes =('snow1', 'fish', 'prawn', 'moray', 'octopus')
+    __customes =('turtle', 'fish', 'prawn', 'moray', 'octopus')
     
     
-    def __init__(self, x=0, y=0, custome= 'snow1'):
+    def __init__(self, x=0, y=0):
+        ixCustome = random.randint(0, 4)
         
-        self.custome = pygame.image.load("images/{}.png".format(custome))
+        self.custome = pygame.image.load("images/{}.png".format(self.__customes[ixCustome]))                       
         self.position = [x, y]
-        self.name = custome
+        self.name = ""
         
     def avanzar(self):
         self.position[0] += random.randint(1, 6)
@@ -33,7 +34,9 @@ class Game():
              theRunner = Runner(self.__startLine,self.__posY[i])
              theRunner.name = self.__names[i]
              self.runners.append(theRunner)
-             
+     
+    
+     
      def competir(self):# lo que hace es escuchar a ver si el jugador hace algo
          gameOver = False
          while not gameOver:
@@ -42,23 +45,31 @@ class Game():
                     gameOver = True
              
              for activeRunner in self.runners:
-                 activeRunner.avanzar()
-             
-             if self.runners[0].position[0] >= self.__finishLine:
-                 print('{} ha ganado'.format(self.runners[0].name))
-                 gameOver = True
+                 activeRunner.avanzar()             
+                 if activeRunner.position[0] >= self.__finishLine:
+                     print('{} ha ganado'.format(activeRunner.name))
+                     gameOver = True
          
              self.__screen.blit(self.__background, (0, 0))  #una vez proceses los eventos en la pantalla, me mueves lo que tengas(), a donde te diga
                      
             
-             for runner in self.runners:
+             for runner in self.runners:# refresca la pantalla
                  self.__screen.blit(runner.custome, runner.position)
     
              pygame.display.flip() #refresca la pantalla
              
+         # con esto el juego se cierra cuando hay un ganador   
          pygame.quit()
          sys.exit()
+'''         
+         while True: #aunque haya un ganador, no se quita hasta que lo cierres tu, sigue generando eventos
+              for event in pygame.event.get():
+                  if event.type == pygame.QUIT:
+                      pygame.quit()
+                      sys.exit()
          
+'''
+
 if __name__ == '__main__':
     game = Game()
     pygame.font.init()
